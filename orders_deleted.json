@@ -1,0 +1,155 @@
+[
+    {
+        "itemId": 4,
+        "name": "Chicken Biryani",
+        "price": 250,
+        "customer": "Sumit",
+        "qty": 1,
+        "timestamp": "2026-08-24T12:19:15+02:00"
+    },
+    {
+        "itemId": 10,
+        "name": "Chef's Special Steak",
+        "price": 999,
+        "customer": "surjit kaur",
+        "qty": 3,
+        "timestamp": "2026-08-24T12:45:03+02:00"
+    },
+    {
+        "itemId": 1,
+        "name": "Cheese Burger",
+        "price": 120,
+        "customer": "harman",
+        "qty": 1,
+        "timestamp": "2026-08-25T07:40:39+02:00"
+    },
+    {
+        "itemId": 2,
+        "name": "Veggie Wrap",
+        "price": 80,
+        "customer": "rubal",
+        "qty": 1,
+        "timestamp": "2026-08-25T07:44:24+02:00"
+    },
+    {
+        "itemId": 1,
+        "name": "Cheese Burger",
+        "price": 120,
+        "customer": "harman",
+        "qty": 1,
+        "timestamp": "2026-08-25T08:07:48+02:00"
+    },
+    {
+        "itemId": 4,
+        "name": "Chicken Biryani",
+        "price": 250,
+        "customer": "NATISHA MAAM",
+        "qty": 2,
+        "timestamp": "2026-08-26T12:29:18+02:00"
+    },
+    {
+        "itemId": 1,
+        "name": "Cheese Burger",
+        "price": 120,
+        "customer": "Harshit pawar",
+        "qty": 6,
+        "timestamp": "2026-08-26T13:39:27+02:00"
+    },
+    {
+        "itemId": 1,
+        "name": "Cheese Burger",
+        "price": 120,
+        "customer": "harman",
+        "qty": 1000,
+        "timestamp": "2026-08-25T07:49:44+02:00"
+    },
+    {
+        "itemId": [
+            3,
+            1,
+            8,
+            11,
+            16
+        ],
+        "name": "French Fries (Large), Cheese Burger, Seafood Platter, Margherita Pizza, BBQ Chicken Pizza",
+        "price": 2140,
+        "qty": 1,
+        "items": [
+            {
+                "itemId": 3,
+                "name": "French Fries (Large)",
+                "price": 60,
+                "qty": 1
+            },
+            {
+                "itemId": 1,
+                "name": "Cheese Burger",
+                "price": 120,
+                "qty": 5
+            },
+            {
+                "itemId": 8,
+                "name": "Seafood Platter",
+                "price": 850,
+                "qty": 1
+            },
+            {
+                "itemId": 11,
+                "name": "Margherita Pizza",
+                "price": 280,
+                "qty": 1
+            },
+            {
+                "itemId": 16,
+                "name": "BBQ Chicken Pizza",
+                "price": 350,
+                "qty": 1
+            }
+        ],
+        "customer": "Sam",
+        "tableNumber": "12",
+        "paymentOption": "Cash",
+        "timestamp": "2026-08-26T17:08:50+02:00"
+    },
+    {
+        "itemId": [
+            43,
+            44,
+            42,
+            41
+        ],
+        "name": "Cheesecake Slice, Malai Kofta, Ice Cream (Strawberry), Ice Cream (Chocolate)",
+        "price": 365,
+        "qty": 1,
+        "items": [
+            {
+                "itemId": 43,
+                "name": "Cheesecake Slice",
+                "price": 120,
+                "qty": 1
+            },
+            {
+                "itemId": 44,
+                "name": "Malai Kofta",
+                "price": 95,
+                "qty": 1
+            },
+            {
+                "itemId": 42,
+                "name": "Ice Cream (Strawberry)",
+                "price": 75,
+                "qty": 1
+            },
+            {
+                "itemId": 41,
+                "name": "Ice Cream (Chocolate)",
+                "price": 75,
+                "qty": 1
+            }
+        ],
+        "customer": "nikki",
+        "tableNumber": "2",
+        "paymentOption": "Cash",
+        "timestamp": "2026-08-26T17:56:44+02:00"
+    }
+]
