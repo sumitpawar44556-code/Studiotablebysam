@@ -1,0 +1,23 @@
+{
+  "name": "studiotablebysam",
+  "version": "1.0.0",
+  "description": "Simple static restaurant pages for a college major project. Includes a home page and a menu with Fast Food, Lunch and Dinner sections. Prices are set between Rs 30 and Rs 1000.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumitpawar44556-code/Studiotablebysam.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sumitpawar44556-code/Studiotablebysam/issues"
+  },
+  "homepage": "https://github.com/sumitpawar44556-code/Studiotablebysam#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
