@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Runtime data
+inc/pass.json
+inc/lockout.json
+inc/audit.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
