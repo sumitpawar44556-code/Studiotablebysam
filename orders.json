@@ -1,1 +1,67 @@
-[]
+[
+    {
+        "itemId": [
+            1,
+            2,
+            3
+        ],
+        "name": "Cheese Burger, Veggie Wrap, French Fries (Large)",
+        "price": 260,
+        "qty": 1,
+        "items": [
+            {
+                "itemId": 1,
+                "name": "Cheese Burger",
+                "price": 120,
+                "qty": 1
+            },
+            {
+                "itemId": 2,
+                "name": "Veggie Wrap",
+                "price": 80,
+                "qty": 1
+            },
+            {
+                "itemId": 3,
+                "name": "French Fries (Large)",
+                "price": 60,
+                "qty": 1
+            }
+        ],
+        "customer": "sumit",
+        "tableNumber": "7",
+        "paymentOption": "Online",
+        "orderId": "ST-20260910173200-29A7",
+        "status": "Ready",
+        "timestamp": "2026-09-10T17:32:00+02:00"
+    },
+    {
+        "itemId": [
+            7,
+            8
+        ],
+        "name": "Butter Chicken Full, Seafood Platter",
+        "price": 1349,
+        "qty": 1,
+        "items": [
+            {
+                "itemId": 7,
+                "name": "Butter Chicken Full",
+                "price": 499,
+                "qty": 1
+            },
+            {
+                "itemId": 8,
+                "name": "Seafood Platter",
+                "price": 850,
+                "qty": 1
+            }
+        ],
+        "customer": "sumit",
+        "tableNumber": "7",
+        "paymentOption": "Cash",
+        "orderId": "ST-20260910174500-F2A6",
+        "status": "Completed",
+        "timestamp": "2026-09-10T17:45:00+02:00"
+    }
+]

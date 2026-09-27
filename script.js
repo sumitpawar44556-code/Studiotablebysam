@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const cartCountEl = document.getElementById('cart-count');
   const cartTotalEl = document.getElementById('cart-total');
   const checkoutBtn = document.getElementById('checkout-btn');
+  const customerForm = document.getElementById('customer-details');
+  const customerName = document.getElementById('customer-name');
+  const tableNumber = document.getElementById('table-number');
+  const paymentOption = document.getElementById('payment-option');
+  const checkoutMessage = document.getElementById('checkout-message');
+  const merchantUpiId = document.body.dataset.upiId || 'YOUR_UPI_ID@BANK';
   let items = [];
   const cart = new Map();
 
@@ -81,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     selectedItems.forEach(item => {
       const row = document.createElement('div');
       row.className = 'cart-row';
-      row.innerHTML = `<span>${item.name}<small>Rs ${item.price} each</small></span>
+      row.innerHTML = `<span><strong>${item.name}</strong><small>Qty: ${item.qty} · Rs ${item.price} each</small></span>
         <span class="cart-actions"><button type="button" data-action="decrease" aria-label="Remove one ${item.name}">-</button>
         <strong>${item.qty}</strong><button type="button" data-action="increase" aria-label="Add one ${item.name}">+</button></span>`;
       row.querySelector('[data-action="decrease"]').addEventListener('click', () => updateCart(item, -1));
@@ -100,12 +106,13 @@ document.addEventListener('DOMContentLoaded', function () {
   function checkout() {
     const selectedItems = Array.from(cart.values());
     if (selectedItems.length === 0) return;
-    const cust = prompt('Enter your name to place this order');
-        if (!cust) return;
-    const table = prompt('Table Number', '');
-    if (!table) return;
-    const payment = prompt('Payment Option (Cash/Card/Online)', 'Cash');
-    if (!payment) return;
+    if (!customerForm.checkValidity()) {
+      customerForm.reportValidity();
+      return;
+    }
+    const cust = customerName.value.trim();
+    const table = tableNumber.value.trim();
+    const payment = paymentOption.value;
     const totalPrice = selectedItems.reduce((sum, item) => sum + item.price * item.qty, 0);
     placeOrder({
       itemId: selectedItems.length === 1 ? selectedItems[0].id : selectedItems.map(item => item.id),
@@ -155,6 +162,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
     const discount = Math.round(totalPrice * (discountPercent / 100));
     const finalPrice = totalPrice - discount;
+    const onlinePaymentReady = order.paymentOption === 'Online' && merchantUpiId !== 'YOUR_UPI_ID@BANK';
+    const upiUrl = onlinePaymentReady
+      ? `upi://pay?pa=${encodeURIComponent(merchantUpiId)}&pn=${encodeURIComponent('Studio Table by Sam')}&am=${finalPrice.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Order ${order.orderId}`)}`
+      : '';
     
     let modalHTML = `
       <div id="orderModal" class="modal-overlay">
@@ -179,7 +190,10 @@ document.addEventListener('DOMContentLoaded', function () {
               <p style="font-size:1.2rem; font-weight:700; color:var(--accent);"><strong>Final Price:</strong> Rs ${finalPrice.toFixed(2)}</p>`;
     }
     
-    modalHTML += `</div>
+        modalHTML += `</div>
+          ${order.paymentOption === 'Online' ? (onlinePaymentReady
+        ? `<a id="pay-online-link" class="btn payment-link" href="${upiUrl}">Pay now with your app</a>`
+        : '<p class="payment-warning">Online payment is not configured yet. Add your UPI ID in menu-static.html.</p>') : ''}
           </div>
           <div class="modal-footer">
             <button class="btn modal-close" onclick="document.getElementById('orderModal').remove()">Close</button>
@@ -188,6 +202,10 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>`;
     
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    if (onlinePaymentReady) {
+      setTimeout(() => { window.location.href = upiUrl; }, 700);
+    }
     
     // Auto-close after 8 seconds
     setTimeout(() => {
@@ -200,39 +218,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalPrice = order.items
       ? order.items.reduce((sum, item) => sum + item.price * item.qty, 0)
       : order.price * order.qty;
-    fetch(new URL('orders.php', document.baseURI), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(order)
-    }).then(async response => {
-      const result = await response.json();
-      if (!response.ok || !result.success) throw new Error(result.message || 'The order could not be saved.');
-      return result;
-    }).then(resp => {
-      order.orderId = resp.orderId;
-      order.status = resp.status;
+    const saveLocally = () => {
+      order.orderId = `ST-${Date.now()}-${Math.random().toString(16).slice(2, 6).toUpperCase()}`;
+      order.status = 'Pending';
+      order.timestamp = new Date().toISOString();
+      const orders = JSON.parse(localStorage.getItem('studioTableOrders') || '[]');
+      orders.push(order);
+      localStorage.setItem('studioTableOrders', JSON.stringify(orders));
+      if (checkoutMessage) checkoutMessage.textContent = 'Order saved in this browser.';
       showOrderModal(order, totalPrice);
-      cart.clear();
-      renderCart();
-    }).catch(err => {
-      alert('Order failed: ' + err.message);
-      console.error(err);
-    });
+    };
+    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+      fetch('orders.php', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(order) })
+        .then(async response => { const result = await response.json(); if (!response.ok || !result.success) throw new Error(result.message || 'Order could not be saved.'); return result; })
+        .then(result => { order.orderId = result.orderId; order.status = result.status; showOrderModal(order, totalPrice); })
+        .catch(() => saveLocally());
+    } else saveLocally();
+    cart.clear();
+    renderCart();
+    customerForm.reset();
 
   }
 
   if (checkoutBtn) checkoutBtn.addEventListener('click', checkout);
   renderCart();
 
-  // load menu.json
-  fetch(new URL('menu.json', document.baseURI)).then(response => {
-    if (!response.ok) throw new Error('Menu data could not be loaded.');
-    return response.json();
-  }).then(data => {
-    items = data;
-    populateCategories();
-    filterAndRender();
-  }).catch(err => console.error('Failed to load menu.json', err));
+  items = window.MENU_ITEMS || [];
+  populateCategories();
+  filterAndRender();
 
   if (search) search.addEventListener('input', filterAndRender);
   if (category) category.addEventListener('change', filterAndRender);
